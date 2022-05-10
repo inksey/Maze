@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     private MazeConstructor constructor;
     [SerializeField] private int rows;
     [SerializeField] private int cols;
+    public GameObject playerPrefab;
 
     void Awake()
     {
@@ -18,5 +19,13 @@ public class GameController : MonoBehaviour
     void Start()
     {
     constructor.GenerateNewMaze(rows, cols);
+    CreatePlayer();
+    }
+
+    private void CreatePlayer()
+    {
+        Vector3 playerStartPosition = new Vector3(constructor.hallWidth, 1, constructor.hallWidth);  
+        GameObject player = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
+        player.tag = "Generated";
     }
 }
