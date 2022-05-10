@@ -10,6 +10,9 @@ public class MazeConstructor : MonoBehaviour
     [SerializeField] private Material treasureMat;
     public float placementThreshold = 0.1f;   // chance of empty space
     private MazeMeshGenerator meshGenerator;
+    public float hallWidth{ get; private set; }
+    public int goalRow{ get; private set; }
+    public int goalCol{ get; private set; }
 
     public int[,] data
     {
@@ -27,6 +30,7 @@ public class MazeConstructor : MonoBehaviour
             {1, 1, 1}
         };
     meshGenerator = new MazeMeshGenerator();
+    hallWidth = meshGenerator.width;
     }
 
     private void DisplayMaze()
@@ -69,10 +73,17 @@ public class MazeConstructor : MonoBehaviour
 
     public void GenerateNewMaze(int sizeRows, int sizeCols)
     {
+
+        DisposeOldMaze(); 
+
         if (sizeRows % 2 == 0 && sizeCols % 2 == 0)
             Debug.LogError("Odd numbers work better for dungeon size.");
 
         data = FromDimensions(sizeRows, sizeCols);
+
+        goalRow = data.GetUpperBound(0) - 1;
+        goalCol = data.GetUpperBound(1) - 1;
+        
         DisplayMaze();
     }
 
@@ -95,5 +106,13 @@ public class MazeConstructor : MonoBehaviour
                     maze[i+a, j+b] = 1;
                 }  
         return maze;
+    }
+
+        public void DisposeOldMaze()
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("Generated");
+        foreach (GameObject go in objects) {
+            Destroy(go);
+        }
     }
 }
