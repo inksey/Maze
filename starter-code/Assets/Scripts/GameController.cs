@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject monsterPrefab;
     private AIController aIController;
+    
 
     void Awake()
     {
@@ -21,7 +22,7 @@ public class GameController : MonoBehaviour
     
     void Start()
     {
-    constructor.GenerateNewMaze(rows, cols);
+    constructor.GenerateNewMaze(rows, cols, OnTreasureTrigger);
     aIController.Graph = constructor.graph;
     aIController.Player = CreatePlayer();
     aIController.Monster = CreateMonster(); 
@@ -45,5 +46,11 @@ public class GameController : MonoBehaviour
         monster.tag = "Generated";  
 
         return monster;  
+    }
+
+    private void OnTreasureTrigger(GameObject trigger, GameObject other)
+    { 
+        Debug.Log("You fricken did it");
+        aIController.StopAI();
     }
 }

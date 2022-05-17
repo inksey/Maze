@@ -197,5 +197,11 @@ public Node[,] Graph
     private int startRow = -1;
     private int startCol = -1;
 
+    public void StopAI()
+    {
+        startRow = -1;
+        startCol = -1;
+        Destroy(monster);
+    }
 
 }
